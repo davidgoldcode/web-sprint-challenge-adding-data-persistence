@@ -30,5 +30,12 @@ function addTask(info) {
 }
 
 function getTasks() {
-  return db("tasks");
+  return db("tasks")
+    .join("projects", "projects.id", "=", "tasks.id")
+    .select(
+      "tasks.*",
+      "projects.name AS Project Name",
+      "projects.description AS Project Description"
+    );
 }
+// retrieving a list of tasks. The list of tasks should include the project name and project description.
