@@ -74,4 +74,35 @@ server.get("/api/tasks", (req, res) => {
     });
 });
 
+server.get("/api/projectresources", (req, res) => {
+  db.getProjectResources()
+    .then((projectresources) => {
+      res.status(200).json(projectresources);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: "Couldn't retrieve projects right now" });
+    });
+});
+
+server.get("/api/tasks", (req, res) => {
+  db.getTasks()
+    .then((tasks) => {
+      res.status(200).json(tasks);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: "Couldn't retrieve tasks right now" });
+    });
+});
+
+server.get("/api/projectResources/:id", (req, res) => {
+  const resourceId = req.params.id;
+  db.getProjectByResource(resourceId)
+    .then((pResource) => {
+      res.status(200).json(pResource);
+    })
+    .catch((err) => {
+      res.status(500).json({ message: "Couldn't retrieve that right now" });
+    });
+});
+
 module.exports = server;

@@ -1,4 +1,5 @@
 const db = require("../data/db-config");
+const { resource } = require("../server");
 
 module.exports = {
   addResource,
@@ -7,6 +8,9 @@ module.exports = {
   getProjects,
   addTask,
   getTasks,
+  getProjectResources,
+  getTasks,
+  getProjectByResource,
 };
 
 function addResource(info) {
@@ -38,4 +42,24 @@ function getTasks() {
       "projects.description AS Project Description"
     );
 }
+
+function getProjectResources() {
+  return db("project_resources").join(
+    "resources",
+    "resources.id",
+    "=",
+    "project_resources.project_id"
+  );
+}
+
+function getTasks() {
+  return db("tasks");
+}
+
+function getProjectByResource(id) {
+  return db("project_resources")
+    .where({ resource_id: id })
+    .join("resources", "resources.id", "=", "project_resources.project_id");
+}
+
 // retrieving a list of tasks. The list of tasks should include the project name and project description.
