@@ -59,7 +59,13 @@ function getTasks() {
 function getProjectByResource(id) {
   return db("project_resources")
     .where({ resource_id: id })
-    .join("resources", "resources.id", "=", "project_resources.project_id");
+    .join("projects", "projects.id", "=", "project_resources.project_id")
+    .join("resources", "resources.id", "=", "project_resources.resource_id")
+    .select(
+      "projects.name AS projectName",
+      "projects.description AS projectDescription",
+      "resources.*"
+    );
 }
 
 // retrieving a list of tasks. The list of tasks should include the project name and project description.
